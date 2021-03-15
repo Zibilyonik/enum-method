@@ -43,7 +43,7 @@ module Enumerable
             i = 0
             for item in self do
                 if item == number
-                    i+=1
+                    i += 1
                 end
             end
             return i
@@ -51,13 +51,25 @@ module Enumerable
         return self.length unless block_given?
         return my_select{|item| yield(item)}.length
     end
+
+    def my_inject(sym = nil, init = nil)
+        init ? memo = init : memo = 0
+        if sym
+            my_each{|x| memo.send(sym, x)}
+        end
+        if block_given?
+            my_each{|x| yield(sym, x)}
+        end
+    end
+        
 end
 
 Arr = [20, 50, 120, 600, 21]
-Arr.my_each{|x| p x+5}
+Arr2 = [a, b, c, d, e]
+Arr.my_each{|x| p x + 5}
 Arr.my_each_with_index{|x, i| p "number: #{x+5}, index: #{i}"}
 p Arr.my_select{|x| x.even?}
 p Arr.my_all?{|x| x.even?}
-p Arr.my_any?{|x| x<1000}
-p Arr.my_none?{|x| x<20}
-p Arr.my_count{|x| x%3==2}
+p Arr.my_any?{|x| x < 1000}
+p Arr.my_none?{|x| x < 20}
+p Arr.my_count{|x| x % 3 == 2}
