@@ -47,7 +47,7 @@ module Enumerable
   end
 
   def my_count(number = nil)
-    if !number.nil?
+    unless number.nil?
       i = 0
       for item in self do
         i += 1 if item == number
@@ -61,14 +61,11 @@ module Enumerable
 
   def my_inject(*args)
     memo = 0
+    memo = args[0] if args[0].is_a?(Integer)
     if args[0].is_a?(Symbol)
       sym = args[0]
       args.delete_at(0)
-    elsif args[1].is_a?(Symbol)
-      sym = args[1]
-      args.delete_at(1)
     end
-    memo = args[0] if args[0]
     if sym
       my_each { |item| memo = memo ? memo.send(sym, item) : item }
     elsif block_given?
@@ -94,19 +91,18 @@ module Enumerable
   end
 end
 
-
-#Arr = [20, 50, 120, 600, 21]
-#Arr2 = ["a", "b", "c", "d", "e"]
-#Arr.my_each{|x| p x + 5}
-#p Arr.my_each{|x| x+5}
-#Arr.my_each_with_index{|x, i| p "number: #{x+5}, index: #{i}"}
-#p Arr.my_select{|x| x.even?}
-#p Arr.my_all?{|x| x.even?}
-#p Arr.my_any?{|x| x < 100}
-#p Arr.my_none?{|x| x < 20}
-#p Arr.my_count{|x| x % 3 == 2}
-#p Arr.my_inject(:*, 5)
-#p Arr.my_map{|x| x+5}
-#p Arr2.my_map{|x| x.upcase}
-#p Arr.multiply_els
+# Arr = [20, 50, 120, 600, 21]
+# Arr2 = ["a", "b", "c", "d", "e"]
+# Arr.my_each{|x| p x + 5}
+# p Arr.my_each{|x| x+5}
+# Arr.my_each_with_index{|x, i| p "number: #{x+5}, index: #{i}"}
+# p Arr.my_select{|x| x.even?}
+# p Arr.my_all?{|x| x.even?}
+# p Arr.my_any?{|x| x < 100}
+# p Arr.my_none?{|x| x < 20}
+# p Arr.my_count{|x| x % 3 == 2}
+# p Arr.my_inject(:*, 5)
+# p Arr.my_map{|x| x+5}
+# p Arr2.my_map{|x| x.upcase}
+# p Arr.multiply_els
 
