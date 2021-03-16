@@ -2,16 +2,16 @@ module Enumerable
   def my_each
     return enum_for unless block_given?
 
-      for item in self do
-        yield item
-      end
+    for item in self do
+      yield item
     end
+  end
 
   def my_each_with_index
     return enum_for unless block_given?
 
     for item in self do
-      yield(item, self.index(item))
+      yield(item, index(item))
     end
   end
 
@@ -27,21 +27,21 @@ module Enumerable
 
   def my_all?
     return null if length <= 0
-    return false if my_select { |item| yield(item) }.length != self.length
+    return false if my_select { |item| yield(item) }.length != length
 
     true
   end
 
   def my_any?
     return null if self.length <= 0
-    return true if my_select { |item| yield(item) }.length != 0
+    return false if my_select { |item| yield(item) }.empty?
 
-    false
+    true
   end
   
   def my_none?
-    return null if self.length <= 0
-    return true if my_select { |item| yield(item) }.length == 0
+    return null if length <= 0
+    return true if my_select { |item| yield(item) }.empty?
     
     false
   end
@@ -57,7 +57,7 @@ module Enumerable
       return i
     end
     return self.length unless block_given?
-    return my_select { |item| yield(item) }.length
+    return my_select { |x| yield(x) }.length
   end
 
   def my_inject(*args)
@@ -70,9 +70,9 @@ module Enumerable
     end
     args[0] ? memo = args[0] : memo = 0
     if sym
-      self.my_each { |item| memo = memo ? memo.send(sym, item) : item }
+      my_each { |item| memo = memo ? memo.send(sym, item) : item }
     elsif block_given?
-      self.my_each { |item| memo = yield(memo, item) }
+      my_each { |item| memo = yield(memo, item) }
     end
     memo
   end
@@ -92,10 +92,9 @@ module Enumerable
   def multiply_els
     my_inject(:*, 1)
   end
-
 end
 
-=begin
+
 Arr = [20, 50, 120, 600, 21]
 Arr2 = ["a", "b", "c", "d", "e"]
 Arr.my_each{|x| p x + 5}
@@ -103,11 +102,11 @@ p Arr.my_each{|x| x+5}
 Arr.my_each_with_index{|x, i| p "number: #{x+5}, index: #{i}"}
 p Arr.my_select{|x| x.even?}
 p Arr.my_all?{|x| x.even?}
-p Arr.my_any?{|x| x < 1000}
+p Arr.my_any?{|x| x < 100}
 p Arr.my_none?{|x| x < 20}
 p Arr.my_count{|x| x % 3 == 2}
 p Arr.my_inject(:*, 5)
 p Arr.my_map{|x| x+5}
 p Arr2.my_map{|x| x.upcase}
 p Arr.multiply_els
-=end
+
