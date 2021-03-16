@@ -1,90 +1,96 @@
 module Enumerable
-    def my_each
-        return enum_for unless block_given?
-        for item in self do
-            yield item
-        end
+  def my_each
+    return enum_for unless block_given?
+
+      for item in self do
+        yield item
+      end
     end
 
-    def my_each_with_index
-        return enum_for unless block_given?
-        for item in self do 
-           yield(item, self.index(item))
-        end
-    end
+  def my_each_with_index
+    return enum_for unless block_given?
 
-    def my_select
-        return enum_for unless block_given?
-        arr=[]
-        for item in self do
-            arr << item if yield(item)
-        end
-        arr
+    for item in self do
+      yield(item, self.index(item))
     end
+  end
 
-    def my_all?
-        return null if self.length <= 0
-        return false if my_select{|item| yield(item)}.length != self.length
-        return true
-    end
+  def my_select
+    return enum_for unless block_given?
 
-    def my_any?
-        return null if self.length <= 0
-        return true if my_select{|item| yield(item)}.length != 0
-        return false
+    arr = []
+    for item in self do
+      arr << item if yield(item)
     end
+    arr
+  end
+
+  def my_all?
+    return null if length <= 0
+    return false if my_select { |item| yield(item) }.length != self.length
+
+    true
+  end
+
+  def my_any?
+    return null if self.length <= 0
+    return true if my_select{|item| yield(item)}.length != 0
+
+    false
+  end
+  
+  def my_none?
+    return null if self.length <= 0
+    return true if my_select{|item| yield(item)}.length == 0
     
-    def my_none?
-        return null if self.length <= 0
-        return true if my_select{|item| yield(item)}.length == 0
-        return false
-    end
+    false
+  end
 
-    def my_count(number = nil)
-        if number != nil
-            i = 0
-            for item in self do
-                if item == number
-                    i += 1
-                end
-            end
-            return i
+  def my_count(number = nil)
+    if number != nil
+      i = 0
+      for item in self do
+        if item == number
+          i += 1
         end
-        return self.length unless block_given?
-        return my_select{|item| yield(item)}.length
+      end
+      return i
     end
+    return self.length unless block_given?
+    return my_select{|item| yield(item)}.length
+  end
 
-    def my_inject(*args)
-        if args[0].is_a?(Symbol)
-            sym = args[0]
-            args.delete_at(0)
-        elsif args[1].is_a?(Symbol)
-            sym = args[1]
-            args.delet_at(1)
-        end
-        args[0] ? memo = args[0] : memo = 0
-        if sym
-            self.my_each{ |item| memo = memo ? memo.send(sym, item) : item}
-        elsif block_given?
-            self.my_each{ |item| memo = yield(memo, item)}
-        end
-        memo
+  def my_inject(*args)
+    if args[0].is_a?(Symbol)
+      sym = args[0]
+      args.delete_at(0)
+    elsif args[1].is_a?(Symbol)
+      sym = args[1]
+      args.delet_at(1)
     end
+    args[0] ? memo = args[0] : memo = 0
+    if sym
+      self.my_each{ |item| memo = memo ? memo.send(sym, item) : item}
+    elsif block_given?
+      self.my_each{ |item| memo = yield(memo, item)}
+    end
+    memo
+  end
 
-    def my_map(proc = nil)
-        return enum_for unless block_given?
-        fin = []
-        if proc
-            my_each{|x| fin << proc.call(x)}
-        else
-            my_each{|x| fin << yield(x)}
-        end
-        fin
+  def my_map(proc = nil)
+    return enum_for unless block_given?
+    fin = []
+    if proc
+      my_each{|x| fin << proc.call(x)}
+    else
+      my_each{|x| fin << yield(x)}
     end
+    fin
+  end
 
-    def multiply_els
-        return self.my_inject(:*, 1)
-    end
+  def multiply_els
+    return self.my_inject(:*, 1)
+  end
 
 end
 
