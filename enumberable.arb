@@ -61,11 +61,11 @@ module Enumerable
 
   def my_inject(*args)
     memo = 0
-    memo = args[0] if args[0].is_a?(Integer)
     if args[0].is_a?(Symbol)
       sym = args[0]
       args.delete_at(0)
     end
+    memo = args[0] if args[0].is_a?(Integer)
     if sym
       my_each { |item| memo = memo ? memo.send(sym, item) : item }
     elsif block_given?
@@ -105,4 +105,3 @@ end
 # p Arr.my_map{|x| x+5}
 # p Arr2.my_map{|x| x.upcase}
 # p Arr.multiply_els
-
