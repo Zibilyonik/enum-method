@@ -1,17 +1,20 @@
 module Enumerable
     def my_each
+        return enum_for unless block_given?
         for item in self do
             yield item
         end
     end
 
     def my_each_with_index
+        return enum_for unless block_given?
         for item in self do 
            yield(item, self.index(item))
         end
     end
 
     def my_select
+        return enum_for unless block_given?
         arr=[]
         for item in self do
             arr << item if yield(item)
@@ -69,6 +72,7 @@ module Enumerable
     end
 
     def my_map(proc = nil)
+        return enum_for unless block_given?
         fin = []
         if proc
             my_each{|x| fin << proc.call(x)}
