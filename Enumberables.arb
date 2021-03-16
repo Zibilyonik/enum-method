@@ -34,14 +34,14 @@ module Enumerable
 
   def my_any?
     return null if self.length <= 0
-    return true if my_select{|item| yield(item)}.length != 0
+    return true if my_select { |item| yield(item) }.length != 0
 
     false
   end
   
   def my_none?
     return null if self.length <= 0
-    return true if my_select{|item| yield(item)}.length == 0
+    return true if my_select { |item| yield(item) }.length == 0
     
     false
   end
@@ -57,7 +57,7 @@ module Enumerable
       return i
     end
     return self.length unless block_given?
-    return my_select{|item| yield(item)}.length
+    return my_select { |item| yield(item) }.length
   end
 
   def my_inject(*args)
@@ -66,34 +66,36 @@ module Enumerable
       args.delete_at(0)
     elsif args[1].is_a?(Symbol)
       sym = args[1]
-      args.delet_at(1)
+      args.delete_at(1)
     end
     args[0] ? memo = args[0] : memo = 0
     if sym
-      self.my_each{ |item| memo = memo ? memo.send(sym, item) : item}
+      self.my_each { |item| memo = memo ? memo.send(sym, item) : item }
     elsif block_given?
-      self.my_each{ |item| memo = yield(memo, item)}
+      self.my_each { |item| memo = yield(memo, item) }
     end
     memo
   end
 
   def my_map(proc = nil)
     return enum_for unless block_given?
+
     fin = []
     if proc
-      my_each{|x| fin << proc.call(x)}
+      my_each { |x| fin << proc.call(x) }
     else
-      my_each{|x| fin << yield(x)}
+      my_each { |x| fin << yield(x) }
     end
     fin
   end
 
   def multiply_els
-    return self.my_inject(:*, 1)
+    my_inject(:*, 1)
   end
 
 end
 
+=begin
 Arr = [20, 50, 120, 600, 21]
 Arr2 = ["a", "b", "c", "d", "e"]
 Arr.my_each{|x| p x + 5}
@@ -108,3 +110,4 @@ p Arr.my_inject(:*, 5)
 p Arr.my_map{|x| x+5}
 p Arr2.my_map{|x| x.upcase}
 p Arr.multiply_els
+=end
