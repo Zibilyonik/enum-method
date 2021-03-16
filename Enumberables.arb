@@ -55,6 +55,9 @@ module Enumerable
         if args[0].is_a?(Symbol)
             sym = args[0]
             args.delete_at(0)
+        elsif args[1].is_a?(Symbol)
+            sym = args[1]
+            args.delet_at(1)
         end
         args[0] ? memo = args[0] : memo = 0
         if sym
@@ -65,11 +68,20 @@ module Enumerable
         memo
     end
 
-    def my_map
+    def my_map(proc = nil)
         fin = []
-        my_each{|x| fin << yield(x)}
+        if proc
+            my_each{|x| fin << proc.call(x)}
+        else
+            my_each{|x| fin << yield(x)}
+        end
         fin
     end
+
+    def multiply_els
+        return self.my_inject(:*, 1)
+    end
+
 end
 
 Arr = [20, 50, 120, 600, 21]
@@ -85,3 +97,4 @@ p Arr.my_count{|x| x % 3 == 2}
 p Arr.my_inject(:*, 5)
 p Arr.my_map{|x| x+5}
 p Arr2.my_map{|x| x.upcase}
+p Arr.multiply_els
