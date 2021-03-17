@@ -102,10 +102,10 @@ module Enumerable
   def my_inject(*args)
     memo = 0
     if args[0].is_a?(Integer)
-      memo = args[0]
-      args.delete_at(0)
+      memo = args.first()
+      args.shift()
     end
-    sym = args[0] if args[0].is_a?(Symbol)
+    sym = args.first() if args[0].is_a?(Symbol)
     if sym
       my_each { |item| memo = memo ? memo.send(sym, item) : item }
     elsif block_given?
@@ -127,7 +127,7 @@ module Enumerable
   end
 
   def multiply_els
-    my_inject(:*, 1)
+    my_inject(1, :*)
   end
 end
 
@@ -147,6 +147,11 @@ p Arr2.my_all?
 p Arr.my_any?{|x| x < 100}
 p Arr2.my_any?
 p Arr.my_none?{|x| x < 20}
+p Arr.my_count
+p Arr2.my_count
+p Arr2.my_count("a")
+p Arr2.my_count{|x| x[/[[:upper:]]/] }
+p Arr.my_count(20)
 p Arr.my_count{|x| x % 3 == 2}
 p Arr.my_inject(5, :*)
 p Arr.my_map{|x| x+5}
