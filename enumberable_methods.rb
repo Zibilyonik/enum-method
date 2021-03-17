@@ -17,7 +17,7 @@ module Enumerable
         yield(item, self[item])
       end
     elsif is_a?(Range)
-      arr=*(self)
+      arr=*self
       for item in arr do
         yield(item, arr.index(item))
       end
@@ -40,7 +40,8 @@ module Enumerable
 
   def my_all?(pattern = nil)
     return true if length <= 0
-    if pattern == nil && !block_given?
+
+    if pattern.nil? && !block_given?
       my_each { |item| return false unless item }
       return true
     end
@@ -56,7 +57,7 @@ module Enumerable
   def my_any?(pattern = nil)
     return false if length <= 0
 
-    if pattern == nil && !block_given?
+    if pattern.nil? && !block_given?
       my_each { |item| return true if item }
       return false
     end
@@ -72,8 +73,8 @@ module Enumerable
   def my_none?(pattern = nil)
     return true if length <= 0
 
-    if pattern == nil && !block_given?
-      my_each { |item| return false unless !item }
+    if pattern.nil? && !block_given?
+      my_each { |item| return false if item }
       return true
     end
 
@@ -102,10 +103,10 @@ module Enumerable
   def my_inject(*args)
     memo = 0
     if args[0].is_a?(Integer)
-      memo = args.first()
-      args.shift()
+      memo = args.first
+      args.shift
     end
-    sym = args.first() if args[0].is_a?(Symbol)
+    sym = args.first if args[0].is_a?(Symbol)
     if sym
       my_each { |item| memo = memo ? memo.send(sym, item) : item }
     elsif block_given?
