@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-# rubocop:disable Style/CaseEquality, Style/For, Style/Documentation, Style/ExplicitBlockArgument, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/ModuleLength
+# rubocop:disable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength
 
 module Enumerable
   def my_each
@@ -160,4 +158,4 @@ end
 # p Arr.my_map{|x| x+5}
 # p Arr2.my_map{|x| x.upcase}
 # p Arr.multiply_els
-# rubocop:enable Style/CaseEquality, Style/For, Style/Documentation, Style/ExplicitBlockArgument, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/ModuleLength
+# rubocop:enable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength
