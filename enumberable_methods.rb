@@ -1,4 +1,6 @@
-# rubocop:disable Style/CaseEquality
+# frozen_string_literal: true
+
+# rubocop:disable Style/CaseEquality, Style/For, Style/Documentation, Style/ExplicitBlockArgument, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/ModuleLength
 
 module Enumerable
   def my_each
@@ -17,7 +19,7 @@ module Enumerable
         yield(item, self[item])
       end
     elsif is_a?(Range)
-      arr=*self
+      arr = *self
       for item in arr do
         yield(item, arr.index(item))
       end
@@ -158,4 +160,4 @@ end
 # p Arr.my_map{|x| x+5}
 # p Arr2.my_map{|x| x.upcase}
 # p Arr.multiply_els
-# rubocop:enable Style/CaseEquality
+# rubocop:enable Style/CaseEquality, Style/For, Style/Documentation, Style/ExplicitBlockArgument, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/ModuleLength
