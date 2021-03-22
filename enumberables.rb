@@ -135,32 +135,4 @@ module Enumerable
   end
 end
 
-# Arr = [20, 50, 120, 600, 21]
-# Arr2 = %w[a b c d e f]
-# Hash1 = {cat: 3, dog: 4, rat: 5}
-# Arr.my_each{|x| p x + 5}
-# p Hash1.my_each
-# p (0..9).my_each
-# p Arr.my_each{|x| x+5}
-# Arr.my_each_with_index{|x, i| p "number: #{x+5}, index: #{i}"}
-# p Hash1.my_each_with_index{|key, value| key = value}
-# p (0..9).my_each_with_index{|x, i| x+i}
-# p Arr.my_select{|x| x.even?}
-# p Arr.my_all?{|x| x.even?}
-# p Arr2.my_all?
-# p Arr2.my_all?(/[[:blank:]]/)
-# p Arr2.my_any?("x")
-# p Arr.my_any?{|x| x < 100}
-# p Arr2.my_any?
-# p Arr.my_none?{|x| x < 20}
-# p Arr.my_count
-# p Arr2.my_count
-# p Arr2.my_count("a")
-# p Arr2.my_count{|x| x[/[[:upper:]]/] }
-# p Arr.my_count(20)
-# p Arr.my_count{|x| x % 3 == 2}
-# p Arr.my_inject(5, :*)
-# p Arr.my_map{|x| x+5}
-# p Arr2.my_map{|x| x.upcase}
-# p Arr.multiply_els
 # rubocop:enable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength, Metrics/PerceivedComplexity
