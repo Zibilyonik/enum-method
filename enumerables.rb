@@ -90,7 +90,7 @@ module Enumerable
   end
 
   def my_count(number = nil)
-    return length unless block_given? || number.nil?
+    return self.length unless block_given? || !number.nil?
 
     unless number.nil?
       i = 0
