@@ -1,4 +1,4 @@
-# rubocop:disable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength
+# rubocop:disable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength, Metrics/PerceivedComplexity
 
 module Enumerable
   def my_each
@@ -41,7 +41,7 @@ module Enumerable
   end
 
   def my_all?(pattern = nil)
-    return false if self == false || self.nil?
+    return false if self == false || nil?
 
     if pattern.nil? && !block_given?
       my_each { |item| return false unless item }
@@ -57,7 +57,7 @@ module Enumerable
   end
 
   def my_any?(pattern = nil)
-    return false if self == false || self.nil?
+    return false if self == false || nil?
 
     if pattern.nil? && !block_given?
       my_each { |item| return true if item }
@@ -73,7 +73,7 @@ module Enumerable
   end
 
   def my_none?(pattern = nil)
-    return true if self == false || self.nil?
+    return true if self == false || nil?
 
     if pattern.nil? && !block_given?
       my_each { |item| return false if item }
@@ -137,7 +137,7 @@ module Enumerable
 end
 
 # Arr = [20, 50, 120, 600, 21]
-Arr2 = %w[a b c d e f]
+# Arr2 = %w[a b c d e f]
 # Hash1 = {cat: 3, dog: 4, rat: 5}
 # Arr.my_each{|x| p x + 5}
 # p Hash1.my_each
@@ -149,8 +149,8 @@ Arr2 = %w[a b c d e f]
 # p Arr.my_select{|x| x.even?}
 # p Arr.my_all?{|x| x.even?}
 # p Arr2.my_all?
-p Arr2.my_all?(/[[:blank:]]/)
-p Arr2.my_any?("x")
+# p Arr2.my_all?(/[[:blank:]]/)
+# p Arr2.my_any?("x")
 # p Arr.my_any?{|x| x < 100}
 # p Arr2.my_any?
 # p Arr.my_none?{|x| x < 20}
