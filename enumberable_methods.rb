@@ -99,7 +99,6 @@ module Enumerable
       end
       return i
     end
-    
 
     my_select { |x| yield(x) }.length
   end
@@ -164,4 +163,4 @@ end
 # p Arr.my_map{|x| x+5}
 # p Arr2.my_map{|x| x.upcase}
 # p Arr.multiply_els
-# rubocop:enable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength
+# rubocop:enable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength, Metrics/PerceivedComplexity
