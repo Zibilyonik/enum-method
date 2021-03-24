@@ -13,18 +13,22 @@ module Enumerable
   def my_each_with_index
     return enum_for unless block_given?
 
+    i = 0
     if is_a?(Hash)
       for item in self do
-        yield(item, self[item])
+        yield(item, i)
+        i += 1
       end
     elsif is_a?(Range)
       arr = *self
       for item in arr do
-        yield(item, arr.index(item))
+        yield(item, i)
+        i += 1
       end
     else
       for item in self do
-        yield(item, index(item))
+        yield(item, i)
+        i += 1
       end
     end
     self
@@ -90,11 +94,12 @@ module Enumerable
   end
 
   def my_count(number = nil)
-    return length unless block_given? || !number.nil?
+    arr = *self if is_a?(Range)
+    return arr.length unless block_given? || !number.nil?
 
     unless number.nil?
       i = 0
-      for item in self do
+      for item in arr do
         i += 1 if item == number
       end
       return i
@@ -104,7 +109,7 @@ module Enumerable
   end
 
   def my_inject(*args)
-    memo = 0
+    memo = first
     if args[0].is_a?(Integer)
       memo = args.first
       args.shift
@@ -112,10 +117,10 @@ module Enumerable
     sym = args.first if args[0].is_a?(Symbol)
     if sym
       my_each { |item| memo = memo ? memo.send(sym, item) : item }
-    elsif block_given?
+    else
       my_each { |item| memo = yield(memo, item) }
     end
-    memo
+    memo / first
   end
 
   def my_map(proc = nil)
@@ -129,10 +134,10 @@ module Enumerable
     end
     fin
   end
-
-  def multiply_els
-    my_inject(1, :*)
-  end
 end
 
+def multiply_els(array)
+  array.my_inject(1, :*)
+end
+p [1, 2, 3].my_inject
 # rubocop:enable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength, Metrics/PerceivedComplexity
