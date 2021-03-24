@@ -51,11 +51,15 @@ module Enumerable
       my_each { |item| return false unless item }
       return true
     end
-    if pattern
+    if pattern.is_a?(Regexp)
+      my_each { |item| return false unless item.match(pattern) }
+    elsif pattern.is_a?(Class)
+      my_each { |item| return false unless item.is_a?(pattern) }
+    elsif pattern
       my_each { |item| return false unless item === pattern }
-      return true
+    else
+      my_each { |item| return false if yield(item) === false }
     end
-    my_each { |item| return false if yield(item) === false }
 
     true
   end
@@ -67,11 +71,15 @@ module Enumerable
       my_each { |item| return true if item }
       return false
     end
-    if pattern
+    if pattern.is_a?(Regexp)
+      my_each { |item| return true if item.match(pattern) }
+    elsif pattern.is_a?(Class)
+      my_each { |item| return true if item.is_a?(pattern) }
+    elsif pattern
       my_each { |item| return true if item === pattern }
-      return false
+    else
+      my_each { |item| return true if yield(item) === true }
     end
-    my_each { |item| return true if yield(item) === true }
 
     false
   end
@@ -84,11 +92,15 @@ module Enumerable
       return true
     end
 
-    if pattern
+    if pattern.is_a?(Regexp)
+      my_each { |item| return false if item.match(pattern) }
+    elsif pattern.is_a?(Class)
+      my_each { |item| return false if item.is_a?(pattern) }
+    elsif pattern
       my_each { |item| return false if item === pattern }
-      return true
+    else
+      my_each { |item| return false unless yield(item) === false }
     end
-    my_each { |item| return false if yield(item) === true }
 
     true
   end
@@ -139,5 +151,5 @@ end
 def multiply_els(array)
   array.my_inject(1, :*)
 end
-p [1, 2, 3].my_inject
+p [1, 2i, 3.14].my_all?(Numeric)
 # rubocop:enable Style/CaseEquality, Style/For, Style/ExplicitBlockArgument, Metrics/CyclomaticComplexity, Metrics/ModuleLength, Metrics/PerceivedComplexity
